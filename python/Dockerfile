@@ -1,15 +1,16 @@
 FROM python:3
 
 # Create a new directory for the Python script
-RUN mkdir -p /app
 WORKDIR /app
 
-# Install the required Python packages
-COPY requirements.txt .
+RUN apt-get update && apt-get install -y wget
+RUN wget https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh
+RUN chmod +x wait-for-it.sh
+COPY requirements.txt /app
 RUN pip install -r requirements.txt
 
-# Copy the Python script to the container
-COPY script.py .
-COPY .env .
+COPY . /app
+
+
 # Run the Python script
-CMD ["python", "bot.py"]
+CMD ["./wait-for-it.sh", "mariadb:3306", "--", "python", "bot.py"]

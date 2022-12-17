@@ -1,17 +1,24 @@
 version: '3'
 services:
   mariadb:
-    build:
-      context: ./mariadb
-    ports:
-      - "3306:3306"
-    volumes:
-      - volume:/var/lib/mysql
+    image: 'mariadb:latest'
+    container_name: 'mariadb_p_bot'
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: password_database
+      MYSQL_USER: 'jc'
+      MYSQL_PASSWORD: 'password_database'
+      MYSQL_DATABASE: 'discord_p'
+      MYSQL_ROOT_PASSWORD: 'rootpassword'
+    volumes:
+        - ./volume/:/var/lib/mysql/
+    networks:
+      - intern
   python:
     build:
       context: ./python
     depends_on:
       - mariadb
-
+    networks:
+      - intern
+networks:
+  intern:

@@ -28,4 +28,4 @@ async def on_ready():
     await tree.sync(guild=discord.Object(id=781456077443170325))
     print("Ready!")
 
-client.run(os.getenv("TOKEN"))
+#client.run(os.getenv("TOKEN"))
